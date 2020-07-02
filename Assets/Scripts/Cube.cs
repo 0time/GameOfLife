@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace NS_GameOfLife {
-  public class Cube : MonoBehaviour, IInvisibility {
+  public class Cube : MonoBehaviour {
     public List<Cube> neighbors = new List<Cube>();
 
     public void toggleVisibility() {
