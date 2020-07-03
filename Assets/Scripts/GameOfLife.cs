@@ -21,6 +21,7 @@ namespace NS_GameOfLife {
     [Tooltip("The minimum amount of time (in seconds) in between steps")]
     public float FastestStepTime = 0.1f;
 
+    bool paused = false;
     float lastStep = 0f;
     float timeElapsed = 0f;
 
@@ -110,18 +111,33 @@ namespace NS_GameOfLife {
       }
     }
 
-    void OnEnable() {
-      SpawnAllNodes();
+    public void Reset() {
+      paused = false;
       InitializeRandomizer();
       InitializeNodes();
       lastStep = -timeElapsed;
     }
 
+    public void TogglePaused() {
+      paused = !paused;
+    }
+
+    void Awake() {
+      SpawnAllNodes();
+    }
+
+    void OnEnable() {
+      Reset();
+    }
+
     void Update() {
-      timeElapsed += Time.deltaTime;
-      if (lastStep + FastestStepTime < timeElapsed) {
-        StepAllNodes();
-        lastStep = timeElapsed;
+      if (!paused) {
+        timeElapsed += Time.deltaTime;
+
+        if (lastStep + FastestStepTime < timeElapsed) {
+          StepAllNodes();
+          lastStep = timeElapsed;
+        }
       }
     }
   }
